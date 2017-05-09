@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TitleTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">26sp</item>
+        <item name="fontPath">fonts/BitterBold.ttf</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+</resources>

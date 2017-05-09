@@ -1,0 +1,13 @@
+ext {
+    libraryCode = 1
+    libraryName = '0.1'
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.2'
+    supportLib = '25.3.1'
+    minSdkVersion = 16
+
+    retrofit = '2.2.0'
+    butterknife = '8.5.1'
+    okhttp = '3.6.0'
+    caligraphy = '2.2.0'
+}
