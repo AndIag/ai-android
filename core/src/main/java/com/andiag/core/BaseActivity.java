@@ -15,10 +15,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @LayoutRes
     protected abstract int getLayout();
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
-    }
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,9 +27,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    public static int resolveColorAttribute(Context context, int attribute) {
-        TypedValue value = new TypedValue();
-        context.getTheme().resolveAttribute(attribute, value, true);
-        return value.data;
-    }
+//    public static int resolveColorAttribute(Context context, int attribute) {
+//        TypedValue value = new TypedValue();
+//        context.getTheme().resolveAttribute(attribute, value, true);
+//        return value.data;
+//    }
 }
