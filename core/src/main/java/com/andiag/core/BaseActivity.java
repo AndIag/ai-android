@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 
 import butterknife.ButterKnife;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -27,9 +26,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-//    public static int resolveColorAttribute(Context context, int attribute) {
-//        TypedValue value = new TypedValue();
-//        context.getTheme().resolveAttribute(attribute, value, true);
-//        return value.data;
-//    }
+    public static int resolveColorAttribute(Context context, int attribute) {
+        TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(attribute, value, true);
+        return value.data;
+    }
+
 }
