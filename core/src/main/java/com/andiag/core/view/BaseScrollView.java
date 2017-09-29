@@ -8,9 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ScrollView;
 
-/**
- * Created by josea on 01/06/2017.
- */
+
 public class BaseScrollView extends ScrollView {
     private static final int MAX_Y_OVERSCROLL_DISTANCE = 50;
     private static final int ANIMATION_DURATION = 300;
