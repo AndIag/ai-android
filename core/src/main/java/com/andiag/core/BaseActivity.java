@@ -8,16 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     @LayoutRes
     protected abstract int getLayout();
 
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
-//    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
