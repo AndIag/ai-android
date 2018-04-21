@@ -26,12 +26,14 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         return R.layout.fragment_tabs;
     }
 
-    private void setupPager() {
+    private void setupTabs() {
         mAdapter = new TabsAdapter(getChildFragmentManager());
         for (BaseTab tab : getTabs()) {
             mAdapter.addTab(tab);
         }
         mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        setupTabLayout();
     }
 
     private void setupTabLayout() {
@@ -40,17 +42,32 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         }
     }
 
+    protected void reloadTabs() {
+        if (mAdapter != null) {
+            mAdapter.clearAll();
+            for (BaseTab tab : getTabs()) {
+                mAdapter.addTab(tab);
+            }
+            mAdapter.notifyDataSetChanged();
+            mViewPager.setAdapter(mAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
+            setupTabLayout();
+            return;
+        }
+        setupTabs();
+    }
+
     public abstract List<BaseTab> getTabs();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        mViewPager = view.findViewById(R.id.viewPager);
-        mTabLayout = view.findViewById(R.id.tabLayout);
-        setupPager();
-        mTabLayout.setupWithViewPager(mViewPager);
-        setupTabLayout();
+        if (view != null) {
+            mViewPager = view.findViewById(R.id.viewPager);
+            mTabLayout = view.findViewById(R.id.tabLayout);
+            setupTabs();
+        }
         return view;
     }
 
@@ -58,13 +75,18 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 
-        public TabsAdapter(FragmentManager fm) {
+        TabsAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        public void addTab(BaseTab tab) {
+        void addTab(BaseTab tab) {
             mFragments.add(tab.getFragment());
             mFragmentTitles.add(tab.getTitle());
+        }
+
+        void clearAll() {
+            mFragments.clear();
+            mFragmentTitles.clear();
         }
 
         @Override
@@ -80,7 +102,7 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         @Override
         public CharSequence getPageTitle(int position) {
             CharSequence pageTitle = mFragmentTitles.get(position);
-            return pageTitle.equals("") ? pageTitle : null ;
+            return pageTitle.equals("") ? pageTitle : null;
         }
     }
 }
