@@ -20,8 +20,6 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
-
-    buildToolsVersion '26.0.2'
 }
 
 configurations.all {
