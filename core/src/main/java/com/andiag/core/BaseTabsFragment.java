@@ -1,6 +1,7 @@
 package com.andiag.core;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,13 @@ import java.util.List;
 
 public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFragment<P> {
 
+    private final static String SELECTED_TAB = "SELECTED_TAB";
+
     ViewPager mViewPager;
     TabLayout mTabLayout;
 
     private TabsAdapter mAdapter;
+    private int mSelectedTab = 0;
 
     @Override
     protected int getLayout() {
@@ -52,12 +56,19 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
             setupTabLayout();
+            mViewPager.setCurrentItem(mSelectedTab);
             return;
         }
         setupTabs();
     }
 
     public abstract List<BaseTab> getTabs();
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_TAB, mSelectedTab);
+    }
 
     @Nullable
     @Override
@@ -66,6 +77,26 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         if (view != null) {
             mViewPager = view.findViewById(R.id.viewPager);
             mTabLayout = view.findViewById(R.id.tabLayout);
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    mSelectedTab = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_TAB)) {
+                mSelectedTab = savedInstanceState.getInt(SELECTED_TAB);
+                mViewPager.setCurrentItem(mSelectedTab);
+            }
             setupTabs();
         }
         return view;
