@@ -17,7 +17,7 @@ import java.util.List;
 
 public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFragment<P> {
 
-    private final static String SELECTED_TAB = "SELECTED_TAB";
+    private static final String SELECTED_TAB = "SELECTED_TAB";
 
     ViewPager mViewPager;
     TabLayout mTabLayout;

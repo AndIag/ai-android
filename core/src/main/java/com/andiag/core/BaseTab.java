@@ -9,37 +9,37 @@ import android.support.v4.app.Fragment;
 
 public class BaseTab {
 
-    private Fragment fragment;
-    private String title;
-    private @DrawableRes int icon;
+    private Fragment mFragment;
+    private String mTitle;
+    private @DrawableRes int mIcon;
 
     public BaseTab(Fragment fragment, String title, int icon) {
-        this.fragment = fragment;
-        this.title = title;
-        this.icon = icon;
+        this.mFragment = fragment;
+        this.mTitle = title;
+        this.mIcon = icon;
     }
 
     public Fragment getFragment() {
-        return fragment;
+        return mFragment;
     }
 
     public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
+        this.mFragment = fragment;
     }
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.mTitle = title;
     }
 
     public int getIcon() {
-        return icon;
+        return mIcon;
     }
 
     public void setIcon(int icon) {
-        this.icon = icon;
+        this.mIcon = icon;
     }
 }
