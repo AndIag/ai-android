@@ -112,44 +112,44 @@ public class BaseScrollView extends ScrollView {
             mLastScroll = (int) (mFirstY - newY);
             // fix for case when simple scroll transforming to overscroll (when
             // touching down from middle/bottom)
-            if (mLastScroll < 0)
-                if (getScrollY() <= 0) {
-                    // we should get offset for future, if we started scrolling
-                    // from middle/bottom
-                    if (mOffset == 0) {
-                        mOffset = mOldLastScroll;
-                        mLastScroll -= mOffset;
-                    } else
-                        mLastScroll -= mOffset;
-
+            if (mLastScroll < 0 && getScrollY() <= 0) {
+                // we should get offset for future, if we started scrolling
+                // from middle/bottom
+                if (mOffset == 0) {
+                    mOffset = mOldLastScroll;
+                    mLastScroll -= mOffset;
+                } else {
+                    mLastScroll -= mOffset;
                 }
+            }
 
             // fix for case when simple scroll transforming to overscroll (when
             // touching down from middle/top)
-            if (mLastScroll > 0) {
-                // ScrollView has always 1 child, so...
-                if (getScrollY() + getHeight() >= getChildAt(0).getHeight()) {
-                    if (mOffset == 0) {
-                        mOffset = mOldLastScroll;
-                        mLastScroll -= mOffset;
-                    } else
-                        mLastScroll -= mOffset;
+            if (mLastScroll > 0 && getScrollY() + getHeight() >= getChildAt(0).getHeight()) {
+                if (mOffset == 0) {
+                    mOffset = mOldLastScroll;
+                    mLastScroll -= mOffset;
+                } else {
+                    mLastScroll -= mOffset;
                 }
-
             }
 
             mOldLastScroll = mLastScroll;
             if (mSlowEffect) {
-                if (getOverScrollYWithSlow(mLastScroll) < -mMaxYOverscrollDistance)
+                if (getOverScrollYWithSlow(mLastScroll) < -mMaxYOverscrollDistance) {
                     mLastScroll = -(int) getReverseOverScrollYWithSlow(mMaxYOverscrollDistance);
-                if (getOverScrollYWithSlow(mLastScroll) > mMaxYOverscrollDistance)
+                }
+                if (getOverScrollYWithSlow(mLastScroll) > mMaxYOverscrollDistance) {
                     mLastScroll = (int) getReverseOverScrollYWithSlow(mMaxYOverscrollDistance);
+                }
 
             } else {
-                if (mLastScroll < -mMaxYOverscrollDistance)
+                if (mLastScroll < -mMaxYOverscrollDistance) {
                     mLastScroll = -mMaxYOverscrollDistance;
-                if (mLastScroll > mMaxYOverscrollDistance)
+                }
+                if (mLastScroll > mMaxYOverscrollDistance) {
                     mLastScroll = mMaxYOverscrollDistance;
+                }
             }
 
             if (mLastScroll < 0) {
@@ -164,8 +164,9 @@ public class BaseScrollView extends ScrollView {
 
                 // ScrollView has always 1 child, so...
                 if (getScrollY() + getHeight() >= getChildAt(0).getHeight()) {
-                    if (mLastY == 0)
+                    if (mLastY == 0) {
                         mLastY = getScrollY();
+                    }
                     pullDown(mLastScroll, mLastY);
                     return true;
                 }
@@ -174,8 +175,9 @@ public class BaseScrollView extends ScrollView {
         } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
 
             //onCLick
-            if (Math.abs(mLastScroll) < DELTA_ON_CLICK)
+            if (Math.abs(mLastScroll) < DELTA_ON_CLICK) {
                 return super.dispatchTouchEvent(ev);
+            }
 
             if (getScrollY() <= 0) {
                 pullUp(mLastScroll, 0);
