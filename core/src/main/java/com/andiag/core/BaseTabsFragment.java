@@ -22,7 +22,6 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
     ViewPager mViewPager;
     TabLayout mTabLayout;
 
-    private TabsAdapter mAdapter;
     private int mSelectedTab = 0;
 
     @Override
@@ -31,11 +30,11 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
     }
 
     private void setupTabs() {
-        mAdapter = new TabsAdapter(getChildFragmentManager());
+        TabsAdapter adapter = new TabsAdapter(getChildFragmentManager());
         for (BaseTab tab : getTabs()) {
-            mAdapter.addTab(tab);
+            adapter.addTab(tab);
         }
-        mViewPager.setAdapter(mAdapter);
+        mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
         setupTabLayout();
     }
@@ -44,22 +43,6 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(getTabs().get(i).getIcon());
         }
-    }
-
-    protected void reloadTabs() {
-        if (mAdapter != null) {
-            mAdapter.clearAll();
-            for (BaseTab tab : getTabs()) {
-                mAdapter.addTab(tab);
-            }
-            mAdapter.notifyDataSetChanged();
-            mViewPager.setAdapter(mAdapter);
-            mTabLayout.setupWithViewPager(mViewPager);
-            setupTabLayout();
-            mViewPager.setCurrentItem(mSelectedTab);
-            return;
-        }
-        setupTabs();
     }
 
     public abstract List<BaseTab> getTabs();
@@ -113,11 +96,6 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         void addTab(BaseTab tab) {
             mFragments.add(tab.getFragment());
             mFragmentTitles.add(tab.getTitle());
-        }
-
-        void clearAll() {
-            mFragments.clear();
-            mFragmentTitles.clear();
         }
 
         @Override
