@@ -3,10 +3,6 @@ package com.andiag.core;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 
-/**
- * Created by Andy on 03/01/2018.
- */
-
 public class BaseTab {
 
     private Fragment mFragment;
