@@ -31,17 +31,18 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
 
     private void setupTabs() {
         TabsAdapter adapter = new TabsAdapter(getChildFragmentManager());
-        for (BaseTab tab : getTabs()) {
+        List<BaseTab> tabs = getTabs();
+        for (BaseTab tab : tabs) {
             adapter.addTab(tab);
         }
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        setupTabLayout();
+        setupTabLayout(tabs);
     }
 
-    private void setupTabLayout() {
+    private void setupTabLayout(List<BaseTab> tabs) {
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            mTabLayout.getTabAt(i).setIcon(getTabs().get(i).getIcon());
+            mTabLayout.getTabAt(i).setIcon(tabs.get(i).getIcon());
         }
     }
 
@@ -53,36 +54,50 @@ public abstract class BaseTabsFragment<P extends BasePresenter> extends BaseFrag
         outState.putInt(SELECTED_TAB, mSelectedTab);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_TAB)) {
+            mSelectedTab = savedInstanceState.getInt(SELECTED_TAB);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (view != null) {
-            mViewPager = view.findViewById(R.id.viewPager);
-            mTabLayout = view.findViewById(R.id.tabLayout);
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mViewPager = view.findViewById(R.id.viewPager);
+        mTabLayout = view.findViewById(R.id.tabLayout);
 
-                }
+        setupTabs();
 
-                @Override
-                public void onPageSelected(int position) {
-                    mSelectedTab = position;
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_TAB)) {
-                mSelectedTab = savedInstanceState.getInt(SELECTED_TAB);
-                mViewPager.setCurrentItem(mSelectedTab);
-            }
-            setupTabs();
-        }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewPager.setCurrentItem(mSelectedTab);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            @Override
+            public void onPageSelected(int position) { mSelectedTab = position; }
+            @Override
+            public void onPageScrollStateChanged(int state) { }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewPager.clearOnPageChangeListeners();
     }
 
     static class TabsAdapter extends FragmentPagerAdapter {
