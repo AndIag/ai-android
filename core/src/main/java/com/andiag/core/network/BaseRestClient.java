@@ -1,4 +1,4 @@
-package com.andiag.core;
+package com.andiag.core.network;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,9 +11,7 @@ public abstract class BaseRestClient {
         return getBaseOkHttpClientBuilder(HttpLoggingInterceptor.Level.valueOf(loggingLevel));
     }
 
-    protected static OkHttpClient.Builder getBaseOkHttpClientBuilder(
-            HttpLoggingInterceptor.Level level) {
-
+    protected static OkHttpClient.Builder getBaseOkHttpClientBuilder(HttpLoggingInterceptor.Level level) {
         return new OkHttpClient.Builder()
                 .connectTimeout(12, TimeUnit.SECONDS)
                 .readTimeout(12, TimeUnit.SECONDS)
@@ -21,9 +19,7 @@ public abstract class BaseRestClient {
                 .addInterceptor(getLoggingLevel(level));
     }
 
-    private static HttpLoggingInterceptor getLoggingLevel(
-            HttpLoggingInterceptor.Level loggingLevel) {
-
+    private static HttpLoggingInterceptor getLoggingLevel(HttpLoggingInterceptor.Level loggingLevel) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(loggingLevel);
         return httpLoggingInterceptor;
