@@ -1,7 +1,7 @@
 package com.andiag.core;
 
 import android.app.Application;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 

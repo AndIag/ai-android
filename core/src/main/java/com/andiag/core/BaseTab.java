@@ -1,7 +1,7 @@
 package com.andiag.core;
 
-import android.support.annotation.DrawableRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.DrawableRes;
+import androidx.fragment.app.Fragment;
 
 public class BaseTab {
 
